@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.pluralsight.candycoded.DB.CandyContract;
@@ -19,6 +22,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final String SHARE_DESCRIPTION = "Look at this delicious candy from Candy Coded - ";
     public static final String HASHTAG_CANDYCODED = " #candycoded";
     String mCandyImageUrl = "";
+    String resultString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class DetailActivity extends AppCompatActivity {
                     R.id.image_view_candy);
             Picasso.with(this).load(mCandyImageUrl).into(imageView);
         }
+        resultString = SHARE_DESCRIPTION + mCandyImageUrl + HASHTAG_CANDYCODED;
     }
 
     @Override
@@ -67,7 +72,16 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-    // ***
-    // TODO - Task 4 - Share the Current Candy with an Intent
-    // ***
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        createShareIntent();
+
+        return super.onOptionsItemSelected(item);
+    }
+    public void createShareIntent(){
+        Intent sharePoint = new Intent(Intent.ACTION_SEND);
+        sharePoint.setType("text/plain");
+        sharePoint.putExtra("SHARE", resultString);
+        startActivity(sharePoint);
+    }
 }
