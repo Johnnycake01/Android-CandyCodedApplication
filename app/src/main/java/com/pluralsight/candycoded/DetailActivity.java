@@ -81,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
     public void createShareIntent(){
         Intent sharePoint = new Intent(Intent.ACTION_SEND);
         sharePoint.setType("text/plain");
-        sharePoint.putExtra("SHARE", resultString);
+        sharePoint.putExtra(Intent.EXTRA_TEXT, resultString);
         startActivity(sharePoint);
     }
 }
